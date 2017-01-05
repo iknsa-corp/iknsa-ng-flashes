@@ -28,11 +28,11 @@ iknsaNgFlashes.factory('IknsaNgFlashFactory', ['$rootScope', function ($rootScop
     };
 
     IknsaNgFlashFactory.clearAll = function () {
-        delete $rootScope[flash];
+        $rootScope.flash = [];
     };
 
     IknsaNgFlashFactory.clear = function (type) {
-        delete $rootScope.flash[type];
+        $rootScope.flash[type] = [];
     };
 
     return IknsaNgFlashFactory;

@@ -5,20 +5,37 @@
  * Time: 01:00
  */
 
-iknsaNgFlashes.directive('iknsaNgFlash', ['$rootScope', 'IknsaNgFlashFactory', function ($rootScope, IknsaNgFlashFactory) {
+iknsaNgFlashes.directive('iknsaNgFlash', ['$rootScope', 'IknsaNgFlashFactory', "VALUE_PARAMETERS",
+    function ($rootScope, IknsaNgFlashFactory) {
     return {
         restrict: 'AE',
         replace: false,
         link: function (scope, element, attributes) {
             scope.$on("$routeChangeSuccess", function () {
-                if ($rootScope.flash === 'undefined' || !$rootScope.flash.length > 0) return;
+                if ($rootScope.flash === 'undefined') return;
 
                 element.addClass('active');
 
-                console.log(attributes);
-                angular.forEach($rootScope.flash, function (flash) {
-                    console.log(flash);
-                })
+                var types = false;
+
+                var flashes = [];
+                angular.forEach(IknsaNgFlashFactory.getAll(), function (flash) {
+
+                    if (attributes.iknsaNgFlash !== "") {
+                        types = attributes.iknsaNgFlash.split(' ');
+
+                        angular.forEach(types, function (type) {
+                            if (type === flash.type) {
+                                flashes.push(flash);
+                            }
+                        });
+                    } else {
+                        flashes.push(flash);
+                    }
+                });
+
+                console.log(flashes);
+                return flashes;
             });
         }
     }
