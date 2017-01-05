@@ -14,5 +14,8 @@
     "bag"
   ],
   "license": "MIT",
-  "private": false
+  "private": false,
+  "dependencies": {
+    "angular-route": "^1.5.9"
+  }
 }
