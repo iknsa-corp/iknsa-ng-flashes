@@ -12,6 +12,7 @@ iknsaNgFlashes.directive('iknsaNgFlash', ['$rootScope', 'IknsaNgFlashFactory', "
         replace: false,
         templateUrl: $rootScope.flashTemplate !== 'undefined' && $rootScope.flashTemplate !== '' ? $rootScope.flashTemplate :
             'web/vendor/iknsa-ng-flashes/templates/flash.html',
+        $scope: {},
         link: function (scope, element, attributes) {
             scope.$on("$routeChangeSuccess", function () {
                 if ($rootScope.flash === 'undefined') return;
@@ -20,23 +21,23 @@ iknsaNgFlashes.directive('iknsaNgFlash', ['$rootScope', 'IknsaNgFlashFactory', "
 
                 var types = false;
 
-                var flashes = [];
-                angular.forEach(IknsaNgFlashFactory.getAll(), function (flash) {
+                var flashes = {};
+                angular.forEach(IknsaNgFlashFactory.get(), function (flash, index) {
 
                     if (attributes.iknsaNgFlash !== "") {
                         types = attributes.iknsaNgFlash.split(' ');
 
                         angular.forEach(types, function (type) {
                             if (type === flash.type) {
-                                flashes.push(flash);
-                                IknsaNgFlashFactory.clear(flash);
+                                flashes[index] = flash;
                             }
                         });
                     } else {
-                        flashes.push(flash);
-                        IknsaNgFlashFactory.clear(flash);
+                        flashes[index] = flash;
                     }
                 });
+
+                IknsaNgFlashFactory.setDisplayed(flashes);
 
                 return flashes;
             });
