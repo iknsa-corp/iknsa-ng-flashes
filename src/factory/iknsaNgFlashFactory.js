@@ -8,31 +8,58 @@
 iknsaNgFlashes.factory('IknsaNgFlashFactory', ['$rootScope', function ($rootScope) {
     var IknsaNgFlashFactory = {};
 
+    IknsaNgFlashFactory.getUniqueId = function () {
+        return 'uniqid-' + new Date().getTime() + Math.floor((Math.random() * 100) + 1);
+    };
+
     IknsaNgFlashFactory.add = function (type, message) {
         var flashes = IknsaNgFlashFactory.getAll();
 
         flashes.push({
+            index: IknsaNgFlashFactory.getUniqueId(),
             type: type,
-            message: message
+            message: message,
+            displayed: false
         });
 
-        $rootScope["flash"] = flashes;
+        $rootScope["flashes"] = flashes;
     };
 
     IknsaNgFlashFactory.getAll = function () {
-        return $rootScope.flash || [];
+        return $rootScope.flashes || [];
     };
 
     IknsaNgFlashFactory.get = function (type) {
         return IknsaNgFlashFactory.getAll()[type] || [];
     };
 
-    IknsaNgFlashFactory.clearAll = function () {
-        $rootScope.flash = [];
+    IknsaNgFlashFactory.update = function (flash) {
+        angular.forEach(IknsaNgFlashFactory.getAll(), function (initialFlash) {
+            console.log(initialFlash);
+        })
     };
 
-    IknsaNgFlashFactory.clear = function (type) {
-        $rootScope.flash[type] = [];
+    IknsaNgFlashFactory.clearAll = function () {
+        $rootScope.flashes = [];
+    };
+
+    /**
+     * @todo work out the method
+     * @param flash object
+     */
+    IknsaNgFlashFactory.clear = function (flash) {
+        var originalFlashes = IknsaNgFlashFactory.getAll();
+        var newFlashes = [];
+
+        angular.forEach(originalFlashes, function (originalFlash) {
+            if (flash.index != originalFlash.index) {
+                newFlashes.push(flash);
+            }
+        });
+
+        console.log(newFlashes);
+
+        // $rootScope["flashes"] = newFlashes;
     };
 
     return IknsaNgFlashFactory;
