@@ -15,16 +15,18 @@ iknsaNgFlashes.factory('IknsaNgFlashFactory', ['$rootScope', function ($rootScop
         return '-' + new Date().getTime() + Math.floor((Math.random() * 100) + 1);
     };
 
-    IknsaNgFlashFactory.add = function (type, message, id) {
+    IknsaNgFlashFactory.add = function (type, message, status, id) {
         var flashId = id || type.replace(' ', '_') + IknsaNgFlashFactory.getUniqueId();
 
         IknsaNgFlashFactory.flashBag[flashId] = {};
-        IknsaNgFlashFactory.flashBag[flashId]['status'] = 0;
+        IknsaNgFlashFactory.flashBag[flashId]['status'] = status || 0;
         IknsaNgFlashFactory.flashBag[flashId]['normedIndex'] = flashId;
         IknsaNgFlashFactory.flashBag[flashId]['index'] = type + IknsaNgFlashFactory.getUniqueId();
         IknsaNgFlashFactory.flashBag[flashId]['type'] = type;
         IknsaNgFlashFactory.flashBag[flashId]['message'] = message;
         IknsaNgFlashFactory.flashBag[flashId]['displayed'] = false;
+
+        if (status === 1) IknsaNgFlashFactory.get();
 
         return IknsaNgFlashFactory;
     };
@@ -33,7 +35,7 @@ iknsaNgFlashes.factory('IknsaNgFlashFactory', ['$rootScope', function ($rootScop
         var flashes = {};
 
         angular.forEach(IknsaNgFlashFactory.flashBag, function (flash, index) {
-            if (flash.status === 1) {
+            if (flash.status === 1 && !flash.displayed) {
                 flashes[index] = flash;
             }
         });
