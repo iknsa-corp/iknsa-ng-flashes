@@ -7,8 +7,8 @@
 
 var iknsaNgFlashes = angular.module('iknsaNgFlashes', ['ngRoute']);
 
-iknsaNgFlashes.run(["$rootScope", function($rootScope) {
+iknsaNgFlashes.run(["$rootScope", "IknsaNgFlashFactory", function($rootScope, IknsaNgFlashFactory) {
     $rootScope.$on( "$routeChangeStart", function() {
-
+        IknsaNgFlashFactory.updateFlashes();
     });
 }]);
