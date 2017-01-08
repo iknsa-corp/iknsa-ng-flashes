@@ -1,6 +1,7 @@
 {
   "name": "iknsa-ng-flashes",
   "homepage": "https://github.com/iknsa-corp/iknsa-ng-flashes",
+  "version": "0.0.1",
   "authors": [
     "Khalid Sookia <khalidsookia@gmail.com>"
   ],
